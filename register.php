@@ -1,6 +1,6 @@
 <?php 
 require_once("PDO.php");
-
+session_start();
 
 if (isset($_POST["register"])){     
     if(!empty($_POST['name']) && !empty($_POST['password']) && !empty($_POST['password2']))
@@ -19,8 +19,10 @@ if (isset($_POST["register"])){
             ]);
             $user= $stat->fetch(PDO::FETCH_ASSOC);
                 if($user)
-                {     
-                        $_GET['error']= "L'utilisateur existe déjà dans la base de données";      
+                {    
+                        $_SESSION['error']= "L'utilisateur existe déjà dans la base de données";
+                        header("Location: register.php");
+                        return;      
                 }else{
                     $sql = "INSERT INTO users (name, password) VALUE (:name, :password)";
                     $stmt = $pdo->prepare($sql);
@@ -28,15 +30,19 @@ if (isset($_POST["register"])){
                     ":name" => $name,
                     ":password" => $hashedpassword,
                     ]);
+                    $_SESSION['succès']= "vous êtes bien enregister. Veuillez vous connecté.";
                     header("Location: login.php");
+                    return;
                     }       
         }else{
-                $_GET['error'] = "Les Mots de Pass ne sont pas les même !";
+                $_SESSION['error'] = "Les Mots de Pass ne sont pas les même !";
                 header("Location: register.php");
+                return;
             }
     }else{
-        $_GET['error'] = "Les champs ne sont pas remplis";
+        $_SESSION['error'] = "Les champs ne sont pas remplis";
         header("Location: register.php");
+        return;
     }
 }
 
@@ -57,11 +63,11 @@ if (isset($_POST["register"])){
         <h2 class="text-uppercase text-center mb-5">Vous Enregister</h2>
         <form method="POST">
             <?php
-                if (isset($_GET['error'])) {
+                if (isset($_SESSION['error'])) {
                 echo('<div id="alert" class="alert alert-danger" role="alert">');
-                echo('<p style="color: red;">'.htmlentities($_GET['error'])."</p>\n");
+                echo('<p style="color: red;">'.htmlentities($_SESSION['error'])."</p>\n");
                 echo('</div>');
-                unset($_GET['error']);
+                unset($_SESSION['error']);
                 }
             ?> 
         <div class="p-4 bg-secondary text-white">
@@ -82,7 +88,7 @@ if (isset($_POST["register"])){
             <!-- Submit button -->
             <div class="d-flex flex-row bd-highlight mb-3">
                 <button type="submit" class="btn btn-primary btn-block mb-4" name="register">S'enregister</button>
-                <button class="btn btn-danger btn-block mb-4"> <a href="./home.php" class="link-light"> Retour Home page</a></button>
+                <button class="btn btn-danger btn-block mb-4"> <a href="index.php" class="link-light"> Retour Home page</a></button>
             </div>
         </div>
         </form>

@@ -60,11 +60,12 @@ if(isset($_POST["submit"]))
             <div class="card-body p-5">
                 <h2 class="text-uppercase text-center mb-5">Vous Connecter</h2>
                 <?php
-                    if(isset($_SESSION['register'])){
+
+                    if(isset($_SESSION['succès'])){
                         echo('<div id="alert" class="alert alert-success" role="alert">');
-                        echo('<p style="color: green;">'.htmlentities($_SESSION['register'])."</p>\n");
+                        echo('<p style="color: green;">'.htmlentities($_SESSION['succès'])."</p>\n");
                         echo('</div>');
-                        unset($_SESSION['register']);
+                        unset($_SESSION['succès']);
                     }
                     if (isset($_SESSION['error'])) {
                         echo('<div id="alert" class="alert alert-danger" role="alert">');
@@ -93,7 +94,7 @@ if(isset($_POST["submit"]))
                 </div>
                 <div class="d-flex flex-row bd-highlight mb-3">
                     <button class="btn btn-primary btn-block mb-4 type="submit" name="submit">Se connecter</button>
-                    <button class="btn btn-danger btn-block mb-4"> <a href="./home.php" class="link-light"> Retour Home page</a></button>
+                    <button class="btn btn-danger btn-block mb-4"> <a href="index.php" class="link-light"> Retour Home page</a></button>
                 </div>
             </form>
             </div>
