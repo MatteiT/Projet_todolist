@@ -1,6 +1,6 @@
 <?php 
-require_once("PDO.php");
 session_start();
+require_once("PDO.php");
 
 if (isset($_POST["register"])){     
     if(!empty($_POST['name']) && !empty($_POST['password']) && !empty($_POST['password2']))
